@@ -1,0 +1,55 @@
+name: Deploy on stage
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install Dependencies
+        run: bun install --ignore-scripts
+
+      - name: Test
+        run: bun test
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_ENV: "stage"
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_WS_URL: ${{ secrets.NEXT_PUBLIC_WS_URL }}
+        run: bun run build
+
+      - name: Static
+        run: |
+          mv ./.next/static/ ./.next/standalone/.next
+          mv ./public/ ./.next/standalone
+
+      - name: Extra
+        run: |
+          rm -rf ./src/app/mocked_api/
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Copy files via SCP
+        run: |
+          scp -r -o StrictHostKeyChecking=no ./.next/standalone/.next/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/.next/
+          scp -r -o StrictHostKeyChecking=no ./.next/standalone/public/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/public/
+          scp -r -o StrictHostKeyChecking=no ./.next/standalone/server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
+          scp -r -o StrictHostKeyChecking=no ./.next/standalone/package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
+          scp -r -o StrictHostKeyChecking=no ./docker-compose.yaml ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
+          scp -r -o StrictHostKeyChecking=no ./Dockerfile ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
+          scp -r -o StrictHostKeyChecking=no ./.dockerignore ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
+
+      - name: Run Docker Compose
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd ${{ secrets.DEPLOY_PATH }} && docker-compose up -d --build"

@@ -6,7 +6,7 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function RootLayout({
+export default async function Layout({
   children,
 }: Readonly<RootLayoutProps>): Promise<React.ReactNode> {
   return (

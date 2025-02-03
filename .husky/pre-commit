@@ -1,2 +1,2 @@
-bun run lint:css
-bun run build
+pnpm run lint:css
+pnpm run build

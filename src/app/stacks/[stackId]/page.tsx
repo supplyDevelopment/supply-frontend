@@ -5,13 +5,13 @@ import { getPageDataBySearchParams } from "@/server";
 import type { SearchParams } from "@/server/types";
 import type { Metadata } from "next";
 
-interface AuthProps {
+interface GenerateMetadataProps {
   searchParams: Promise<SearchParams>;
 }
 
 export async function generateMetadata({
   searchParams,
-}: AuthProps): Promise<Metadata> {
+}: GenerateMetadataProps): Promise<Metadata> {
   const { text } = getPageDataBySearchParams(await searchParams);
 
   return {
@@ -19,10 +19,14 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home({
-  searchParams,
-}: AuthProps): Promise<React.ReactNode> {
-  const { text } = getPageDataBySearchParams(await searchParams);
+interface PageProps {
+  params: Promise<{ stackId: string }>;
+}
 
-  return <div>{text["title"]}</div>;
+export default async function Page({
+  params,
+}: PageProps): Promise<React.ReactNode> {
+  const { stackId } = await params;
+
+  return <div>ТМЦ - один стак {stackId}</div>;
 }

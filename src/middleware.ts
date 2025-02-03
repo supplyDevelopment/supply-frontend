@@ -4,14 +4,23 @@ import { logger } from "@/common";
 
 import { getUserInfo, mapUserDataToClientData } from "./server";
 
+const routesForAuthorizedUsers = new Set([
+  "/employees",
+  "/history",
+  "/requests",
+  "/stacks",
+  "/subscription",
+]);
+
 export async function middleware(
   req: NextRequest,
 ): Promise<NextResponse | undefined> {
   try {
     const url = new URL(req.url);
     const authUrl = new URL(url.origin + "/auth");
+    const stacksUrl = new URL(url.origin + "/stacks");
 
-    if (url.pathname === "/") {
+    if (routesForAuthorizedUsers.has(url.pathname)) {
       const cookie = req.headers.get("Cookie");
 
       logger.log("Cookie: ", cookie);
@@ -44,6 +53,8 @@ export async function middleware(
       }
 
       return res;
+    } else if (url.pathname === "/") {
+      return NextResponse.redirect(stacksUrl);
     }
   } catch {
     return NextResponse.next();

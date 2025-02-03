@@ -23,7 +23,6 @@ export default async function Home({
   searchParams,
 }: AuthProps): Promise<React.ReactNode> {
   const { text } = getPageDataBySearchParams(await searchParams);
-  // const user = getUserOrRedirect(await headers());
 
   return <div>{text["title"]}</div>;
 }

@@ -3,26 +3,17 @@ import { makeRequest } from "@/common";
 import type { HttpResponse } from "@/common/types";
 
 interface Data {
-  active_chat_id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
+  permissions: string[];
+  subscriptionEndDate: Date;
 }
 
 export interface ClientData {
-  activeChatId: number;
-  email: string;
-  firstName: string;
-  lastName: string;
+  permissions: string[];
+  subscriptionEndDate: Date;
 }
 
 export const mapDataToClientData = (data: Data): ClientData => {
-  return {
-    activeChatId: data.active_chat_id,
-    email: data.email,
-    firstName: data.first_name,
-    lastName: data.last_name,
-  };
+  return data;
 };
 
 export const getUserInfo = async (

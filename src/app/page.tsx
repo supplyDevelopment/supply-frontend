@@ -1,3 +1,5 @@
+"use server";
+
 import { getPageDataBySearchParams } from "@/server";
 
 import type { SearchParams } from "@/server/types";

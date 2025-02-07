@@ -1,3 +1,29 @@
+@font-face {
+  font-family: SFUIDisplay;
+  font-weight: 400;
+  src: url("/SFUIDisplay-Regular.ttf");
+}
+
+@font-face {
+  font-family: SFUIDisplay;
+  font-weight: 550;
+  src: url("/SFUIDisplay-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: SFUIDisplay;
+  font-weight: 700;
+  src: url("/SFUIDisplay-Bold.ttf");
+}
+
+:root {
+  --color-green: #2fb292;
+  --color-red: #ce0000;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-gray: #b9b9b9;
+}
+
 * {
   box-sizing: border-box;
 
@@ -5,6 +31,26 @@
 
   margin: 0;
 
-  font-family: Arial, serif;
+  font-family: SFUIDisplay, Arial, serif;
   text-decoration: none;
+}
+
+html {
+  min-width: 320px;
+
+  max-width: 428px;
+
+  height: 100%;
+
+  margin: 0 auto;
+}
+
+body {
+  position: relative;
+
+  height: 100%;
+
+  font-size: 16px;
+
+  background: var(--color-white);
 }

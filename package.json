@@ -21,7 +21,6 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@svgr/webpack": "^8.1.0",
     "@chromatic-com/storybook": "^3.2.4",
     "@storybook/addon-essentials": "^8.5.2",
     "@storybook/addon-interactions": "^8.5.2",
@@ -30,6 +29,7 @@
     "@storybook/nextjs": "^8.5.2",
     "@storybook/react": "^8.5.2",
     "@storybook/test": "^8.5.2",
+    "@svgr/webpack": "^8.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^20",
@@ -38,7 +38,7 @@
     "@typescript-eslint/parser": "^8.22.0",
     "@vitejs/plugin-react": "^4.3.4",
     "clsx": "^2.1.1",
-    "eslint": "^9",
+    "eslint": "^8",
     "eslint-config-next": "15.1.6",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-import": "^2.31.0",

@@ -2,6 +2,10 @@
 
 import { getPageDataBySearchParams } from "@/server";
 
+import { Icon } from "@/client/shared";
+
+import styles from "./page.module.css";
+
 import type { SearchParams } from "@/server/types";
 import type { Metadata } from "next";
 
@@ -20,5 +24,13 @@ export async function generateMetadata({
 }
 
 export default async function Page(): Promise<React.ReactNode> {
-  return <div>Авторизация</div>;
+  return (
+    <div className={styles.pos}>
+      <Icon.SupplyLogo />
+      <p className={styles.description}>
+        Система учета ресурсов <br />
+        строительных компаний
+      </p>
+    </div>
+  );
 }

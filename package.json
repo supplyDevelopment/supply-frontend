@@ -8,12 +8,12 @@
     "start": "next start",
     "lint:ts": "eslint .",
     "lint:css": "stylelint \"**/*.css\"",
-    "lint": "bun run linst:css && bun run lint:ts",
+    "lint": "pnpm run lint:css && pnpm run lint:ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
     "husky": "husky",
-    "postinstall": "bun run husky && sh ./scripts/generate-env.sh"
+    "postinstall": "pnpm run husky && sh ./scripts/generate-env.sh"
   },
   "dependencies": {
     "next": "15.1.6",

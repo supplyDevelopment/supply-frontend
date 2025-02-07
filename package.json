@@ -52,7 +52,7 @@
     "stylelint-order": "^6.0.4",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.4",
+    "vitest": ">=3.0.5",
     "zod": "^3.24.1"
   }
 }

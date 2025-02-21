@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 import { logger } from "@/common";
@@ -7,13 +8,15 @@ import { logger } from "@/common";
 import { MainButton } from "@/client/entities";
 
 import styles from "./ClientPage.module.css";
+import { authorize } from "./api/authorize";
 
 import type { FormEventHandler } from "react";
 
 export const ClientPage: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null!);
+  const router = useRouter();
 
-  const onSubmit: FormEventHandler = event => {
+  const onSubmit: FormEventHandler = async event => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
@@ -23,6 +26,14 @@ export const ClientPage: React.FC = () => {
 
     logger.log("Login: ", login);
     logger.log("Password: ", password);
+
+    try {
+      await authorize({ login, password });
+
+      router.push("/stacks");
+    } catch {
+      formRef.current.reset();
+    }
   };
 
   const onButtonClick = (): void => {

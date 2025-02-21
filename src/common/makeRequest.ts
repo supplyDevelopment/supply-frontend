@@ -25,6 +25,10 @@ export const makeRequest = async <Data>(
     body: null,
   };
 
+  if (headers && !headers.has("Content-Type")) {
+    headers.append("Content-Type", "application/json");
+  }
+
   const requestOptions: RequestInit = {
     method,
     headers,

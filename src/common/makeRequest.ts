@@ -19,13 +19,17 @@ export const makeRequest = async <Data>(
     schema: z.ZodTypeAny;
   }>,
 ): Promise<HttpResponse<Data>> => {
-  const { method, headers, body, schema } = params ?? {
+  const {
+    method,
+    headers = new Headers(),
+    body,
+    schema,
+  } = params ?? {
     method: "GET",
-    headers: undefined,
     body: null,
   };
 
-  if (headers && !headers.has("Content-Type")) {
+  if (!headers.has("Content-Type")) {
     headers.append("Content-Type", "application/json");
   }
 

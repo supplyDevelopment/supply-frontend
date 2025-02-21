@@ -1,0 +1,18 @@
+.wrapper {
+  padding: 12px;
+
+  font-size: 12px;
+  text-align: center;
+
+  border-radius: 4px;
+
+  border: 1.5px solid var(--color-green);
+}
+
+.hover {
+  cursor: pointer;
+}
+
+.focus {
+  outline: 1.5px solid black;
+}

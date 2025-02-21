@@ -4,6 +4,8 @@ import { getPageDataBySearchParams } from "@/server";
 
 import { Icon } from "@/client/shared";
 
+import { ClientPage } from "@/client/pages/Auth";
+
 import styles from "./page.module.css";
 
 import type { SearchParams } from "@/server/types";
@@ -31,6 +33,7 @@ export default async function Page(): Promise<React.ReactNode> {
         Система учета ресурсов <br />
         строительных компаний
       </p>
+      <ClientPage />
     </div>
   );
 }

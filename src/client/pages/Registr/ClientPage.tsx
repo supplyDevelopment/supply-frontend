@@ -1,15 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { MainButton } from "@/client/entities";
 
 import styles from "./ClientPage.module.css";
+import { subscribePayment } from "./api/subscribePayment";
 
 export const ClientPage: React.FC = () => {
   const [price, setPrice] = useState(500);
-  const router = useRouter();
+  const selectRef = useRef<HTMLSelectElement>(null);
+
+  const getPriceByPeriod = (period: string): number =>
+    period === "month" ? 100 : 1000;
 
   const onChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event,
@@ -17,15 +20,25 @@ export const ClientPage: React.FC = () => {
     setPrice(event.target.value === "month" ? 100 : 1000);
   };
 
-  const onClick = (): void => {
-    router.push("/stacks");
+  const onClick = async (): Promise<void> => {
+    const period = selectRef.current?.value ?? "month";
+
+    const monthsCount = period === "month" ? 1 : 12;
+    const amount = getPriceByPeriod(period);
+
+    const { data } = await subscribePayment({
+      amount,
+      monthsCount,
+    });
+
+    window.location.href = data.payment_url;
   };
 
   return (
     <div>
       <div className={styles.date}>
         <p>Подключение на</p>
-        <select onChange={onChange}>
+        <select ref={selectRef} onChange={onChange} defaultValue="month">
           <option value="month">месяц</option>
           <option value="year">год</option>
         </select>

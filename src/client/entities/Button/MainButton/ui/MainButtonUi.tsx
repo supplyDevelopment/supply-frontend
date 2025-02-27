@@ -6,11 +6,12 @@ import type { UiProps } from "@/client/shared/types";
 
 interface GetButtonUiParams {
   text: string;
+  pos?: string;
 }
 
 type GetMainButtonUi = (params: GetButtonUiParams) => React.FC<UiProps>;
 
-export const getMainButtonUi: GetMainButtonUi = ({ text }) => {
+export const getMainButtonUi: GetMainButtonUi = ({ text, pos }) => {
   const component: React.FC<UiProps> = ({
     disabled,
     focus,
@@ -22,6 +23,7 @@ export const getMainButtonUi: GetMainButtonUi = ({ text }) => {
       <div
         className={clsx(
           styles.wrapper,
+          pos,
           disabled && styles.disabled,
           focus && styles.focus,
           hover && styles.hover,

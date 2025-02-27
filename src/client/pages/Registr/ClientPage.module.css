@@ -1,0 +1,16 @@
+.date {
+  display: flex;
+  justify-content: center;
+
+  gap: 0.5em;
+}
+
+.text_under_button {
+  padding-top: 4px;
+
+  font-size: 8px;
+}
+
+.button_pos {
+  margin-top: 19px;
+}

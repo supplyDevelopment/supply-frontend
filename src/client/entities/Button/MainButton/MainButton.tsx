@@ -10,6 +10,7 @@ interface MainButtonProps {
   forceLoading?: boolean;
   forceTabIndex?: number;
   text: string;
+  pos?: string;
 }
 
 export const MainButton: React.FC<MainButtonProps> = ({
@@ -18,6 +19,7 @@ export const MainButton: React.FC<MainButtonProps> = ({
   forceLoading,
   forceTabIndex,
   text,
+  pos,
 }) => {
   return (
     <ButtonModel
@@ -27,6 +29,7 @@ export const MainButton: React.FC<MainButtonProps> = ({
       onClick={onClick}
       Ui={getMainButtonUi({
         text,
+        pos,
       })}
     />
   );

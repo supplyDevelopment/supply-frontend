@@ -11,10 +11,10 @@ interface Data {
   payment_url: string;
 }
 
-export const subscribePayment = async (
+export const profileSubscribePayment = async (
   params: SubscribePaymentParams,
 ): Promise<HttpResponse<Data>> => {
-  return await makeRequest<Data>(`/subscribe/payment`, {
+  return await makeRequest<Data>(`/profile/subscribe/payment`, {
     method: "POST",
     body: JSON.stringify(params),
   });

@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { MainButton } from "@/client/entities";
 
 import styles from "./ClientPage.module.css";
-import { subscribePayment } from "./api/subscribePayment";
+import { profileSubscribePayment } from "./api/profileSubscribePayment";
 
 export const ClientPage: React.FC = () => {
   const [price, setPrice] = useState(500);
@@ -26,7 +26,7 @@ export const ClientPage: React.FC = () => {
     const monthsCount = period === "month" ? 1 : 12;
     const amount = getPriceByPeriod(period);
 
-    const { data } = await subscribePayment({
+    const { data } = await profileSubscribePayment({
       amount,
       monthsCount,
     });

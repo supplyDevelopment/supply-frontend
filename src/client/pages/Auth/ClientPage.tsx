@@ -10,13 +10,11 @@ import { MainButton } from "@/client/entities";
 import styles from "./ClientPage.module.css";
 import { authorize } from "./api/authorize";
 
-import type { FormEventHandler } from "react";
-
 export const ClientPage: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null!);
   const router = useRouter();
 
-  const onSubmit: FormEventHandler = async event => {
+  const onSubmit: React.FormEventHandler = async event => {
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);

@@ -2,14 +2,17 @@
 
 import { useRef, useState } from "react";
 
+import { logger } from "@/common";
+
 import { MainButton } from "@/client/entities";
 
 import styles from "./ClientPage.module.css";
+import { authRegistrCompany } from "./api/authRegistrCompany";
 import { profileSubscribePayment } from "./api/profileSubscribePayment";
 
 export const ClientPage: React.FC = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [price, setPrice] = useState(500);
-  const selectRef = useRef<HTMLSelectElement>(null);
 
   const getPriceByPeriod = (period: string): number =>
     period === "month" ? 100 : 1000;
@@ -20,25 +23,56 @@ export const ClientPage: React.FC = () => {
     setPrice(event.target.value === "month" ? 100 : 1000);
   };
 
-  const onClick = async (): Promise<void> => {
-    const period = selectRef.current?.value ?? "month";
+  const onClick = (): void => {
+    formRef.current?.dispatchEvent(
+      new Event("submit", {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+  };
+
+  const onSubmit: React.FormEventHandler = async event => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    const period = (formData.get("period") as string).trim();
+    const email = (formData.get("email") as string).trim();
+
+    logger.log("Period: ", period);
+    logger.log("Email: ", email);
 
     const monthsCount = period === "month" ? 1 : 12;
     const amount = getPriceByPeriod(period);
 
-    const { data } = await profileSubscribePayment({
-      amount,
-      monthsCount,
-    });
+    try {
+      const { error: registrError } = await authRegistrCompany({ email });
 
-    window.location.href = data.payment_url;
+      if (registrError) {
+        return;
+      }
+
+      const { data, error: subscribeError } = await profileSubscribePayment({
+        amount,
+        monthsCount,
+      });
+
+      if (subscribeError) {
+        return;
+      }
+
+      window.location.href = data.payment_url;
+    } catch {
+      formRef.current?.reset();
+    }
   };
 
   return (
-    <div>
+    <form ref={formRef} onSubmit={onSubmit}>
       <div className={styles.date}>
         <p>Подключение на</p>
-        <select ref={selectRef} onChange={onChange} defaultValue="month">
+        <select onChange={onChange} defaultValue="month" name="period">
           <option value="month">месяц</option>
           <option value="year">год</option>
         </select>
@@ -46,6 +80,13 @@ export const ClientPage: React.FC = () => {
           {price} <span>₽</span>
         </p>
       </div>
+      <input
+        className={styles.input}
+        placeholder="Почта"
+        type="text"
+        name="email"
+        defaultValue=""
+      />
       <MainButton pos={styles.button_pos} text="Подключить" onClick={onClick} />
       <p className={styles.text_under_button}>
         Нажимая кнопку &quot;Подключить&quot;, вы соглашаетесь с &nbsp;
@@ -53,6 +94,6 @@ export const ClientPage: React.FC = () => {
           Условиями лиценизонного соглашения
         </a>
       </p>
-    </div>
+    </form>
   );
 };

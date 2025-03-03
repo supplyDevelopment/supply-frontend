@@ -28,7 +28,7 @@ export const ClientPage: React.FC = () => {
     try {
       await authorize({ login, password });
 
-      router.push("/stacks");
+      router.push("/subscription");
     } catch {
       formRef.current.reset();
     }

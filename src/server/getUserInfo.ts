@@ -4,7 +4,7 @@ import type { HttpResponse } from "@/common/types";
 
 interface Data {
   permissions: string[];
-  subscriptionEndDate: Date;
+  subscription_end_date: Date;
 }
 
 export interface ClientData {
@@ -13,13 +13,16 @@ export interface ClientData {
 }
 
 export const mapDataToClientData = (data: Data): ClientData => {
-  return data;
+  return {
+    subscriptionEndDate: data.subscription_end_date,
+    permissions: data.permissions,
+  };
 };
 
 export const getUserInfo = async (
   Cookie: string,
 ): Promise<HttpResponse<Data>> => {
-  return await makeRequest<Data>("/profile/get_user_info", {
+  return await makeRequest<Data>("/profile/user_info", {
     headers: new Headers({ Cookie }),
   });
 };

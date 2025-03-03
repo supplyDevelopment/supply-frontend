@@ -15,7 +15,7 @@ export default function Page(): React.ReactNode {
         return;
       }
 
-      router.push("/");
+      router.push("/subscription");
     });
   }, [router]);
 

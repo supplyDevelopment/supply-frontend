@@ -4,18 +4,23 @@ import type { HttpResponse } from "@/common/types";
 
 interface Data {
   permissions: string[];
-  subscription_end_date: Date;
+  subscription_end_date: string;
+  email: {
+    email: string;
+  };
 }
 
 export interface ClientData {
   permissions: string[];
   subscriptionEndDate: Date;
+  email: string;
 }
 
 export const mapDataToClientData = (data: Data): ClientData => {
   return {
-    subscriptionEndDate: data.subscription_end_date,
+    subscriptionEndDate: new Date(data.subscription_end_date),
     permissions: data.permissions,
+    email: data.email.email,
   };
 };
 

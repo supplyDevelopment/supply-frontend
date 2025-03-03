@@ -10,5 +10,7 @@ export const getUserOrRedirect = (headers: ReadonlyHeaders): UserClientData => {
     return redirect("/auth");
   }
 
-  return JSON.parse(decodeURI(xUserInfo));
+  const user = JSON.parse(decodeURI(xUserInfo)) as UserClientData;
+
+  return { ...user, subscriptionEndDate: new Date(user.subscriptionEndDate) };
 };

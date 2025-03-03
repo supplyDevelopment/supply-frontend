@@ -1,6 +1,14 @@
 "use server";
 
-import { getPageDataBySearchParams } from "@/server";
+import { headers } from "next/headers";
+
+import { getPageDataBySearchParams, getUserOrRedirect } from "@/server";
+
+import { Icon } from "@/client/shared";
+
+import { ClientPage } from "@/client/pages/Subscription";
+
+import styles from "./page.module.css";
 
 import type { SearchParams } from "@/server/types";
 import type { Metadata } from "next";
@@ -20,5 +28,16 @@ export async function generateMetadata({
 }
 
 export default async function Page(): Promise<React.ReactNode> {
-  return <div>Управление подпиской</div>;
+  const user = getUserOrRedirect(await headers());
+
+  return (
+    <div className={styles.pos}>
+      <Icon.SupplyLogo />
+      <p className={styles.description}>
+        Система учета ресурсов <br />
+        строительных компаний
+      </p>
+      <ClientPage user={user} />
+    </div>
+  );
 }

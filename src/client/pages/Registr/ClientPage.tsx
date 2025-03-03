@@ -6,9 +6,10 @@ import { logger } from "@/common";
 
 import { MainButton } from "@/client/entities";
 
+import { profileSubscribePayment } from "@/client/shared";
+
 import styles from "./ClientPage.module.css";
 import { authRegistrCompany } from "./api/authRegistrCompany";
-import { profileSubscribePayment } from "./api/profileSubscribePayment";
 
 export const ClientPage: React.FC = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -69,7 +70,7 @@ export const ClientPage: React.FC = () => {
   };
 
   return (
-    <form ref={formRef} onSubmit={onSubmit}>
+    <form ref={formRef} onSubmit={onSubmit} className={styles.form}>
       <div className={styles.date}>
         <p>Подключение на</p>
         <select onChange={onChange} defaultValue="month" name="period">

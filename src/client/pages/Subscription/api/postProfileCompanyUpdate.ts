@@ -6,11 +6,11 @@ interface ProfileComopanyUpdateParams {
   email: string;
 }
 
-export const profileCompanyUpdate = async (
-  params: ProfileComopanyUpdateParams,
-): Promise<HttpResponse<void>> => {
+export const profileCompanyUpdate = async ({
+  email,
+}: ProfileComopanyUpdateParams): Promise<HttpResponse<void>> => {
   return await makeRequest<void>(`/profile/company/update`, {
     method: "POST",
-    body: JSON.stringify(params),
+    body: JSON.stringify([{ email }]),
   });
 };

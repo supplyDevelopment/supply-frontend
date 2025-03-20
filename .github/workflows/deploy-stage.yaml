@@ -29,7 +29,7 @@ jobs:
       - name: Build
         env:
           NEXT_PUBLIC_ENV: "stage"
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL_STAGE }}
         run: pnpm run build
 
       - name: Static
@@ -40,17 +40,17 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_STAGE }}
 
       - name: Copy files via SCP
         run: |
-          scp -r -o StrictHostKeyChecking=no ./.next/standalone/.next/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/.next/
-          scp -r -o StrictHostKeyChecking=no ./.next/standalone/public/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}/public/
-          scp -r -o StrictHostKeyChecking=no ./.next/standalone/server.js ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
-          scp -r -o StrictHostKeyChecking=no ./.next/standalone/package.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
-          scp -r -o StrictHostKeyChecking=no ./docker-compose.yaml ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
-          scp -r -o StrictHostKeyChecking=no ./Dockerfile ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
-          scp -r -o StrictHostKeyChecking=no ./.dockerignore ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_PATH }}
+          scp -r -o StrictHostKeyChecking=no ./.next/standalone/.next ${{ secrets.SERVER_USER_STAGE }}@${{ secrets.SERVER_IP_STAGE }}:${{ secrets.DEPLOY_PATH_STAGE }}/
+          scp -r -o StrictHostKeyChecking=no ./.next/standalone/public ${{ secrets.SERVER_USER_STAGE }}@${{ secrets.SERVER_IP_STAGE }}:${{ secrets.DEPLOY_PATH_STAGE }}/
+          scp -r -o StrictHostKeyChecking=no ./.next/standalone/server.js ${{ secrets.SERVER_USER_STAGE }}@${{ secrets.SERVER_IP_STAGE }}:${{ secrets.DEPLOY_PATH_STAGE }}
+          scp -r -o StrictHostKeyChecking=no ./.next/standalone/package.json ${{ secrets.SERVER_USER_STAGE }}@${{ secrets.SERVER_IP_STAGE }}:${{ secrets.DEPLOY_PATH_STAGE }}
+          scp -r -o StrictHostKeyChecking=no ./docker-compose.yaml ${{ secrets.SERVER_USER_STAGE }}@${{ secrets.SERVER_IP_STAGE }}:${{ secrets.DEPLOY_PATH_STAGE }}
+          scp -r -o StrictHostKeyChecking=no ./Dockerfile ${{ secrets.SERVER_USER_STAGE }}@${{ secrets.SERVER_IP_STAGE }}:${{ secrets.DEPLOY_PATH_STAGE }}
+          scp -r -o StrictHostKeyChecking=no ./.dockerignore ${{ secrets.SERVER_USER_STAGE }}@${{ secrets.SERVER_IP_STAGE }}:${{ secrets.DEPLOY_PATH_STAGE }}
 
       - name: Run Docker Compose
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd ${{ secrets.DEPLOY_PATH }} && docker compose up -d --build"
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER_STAGE_STAGE }}@${{ secrets.SERVER_IP_STAGE_STAGE }} "cd ${{ secrets.DEPLOY_PATH_STAGE }} && docker compose up -d --build"
